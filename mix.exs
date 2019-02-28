@@ -4,10 +4,11 @@ defmodule ExQrcode.MixProject do
   def project do
     [
       app: :ex_qrcode,
+      description: "Utils for generating QR code in Elixir",
       version: "0.1.0",
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
       source_url: "https://github.com/2players/ex_qrcode"
     ]
   end
