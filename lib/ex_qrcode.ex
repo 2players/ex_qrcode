@@ -1,24 +1,30 @@
 defmodule QRCode do
-  @doc """
-  version:
+  @default_ecc :M
 
-  ecc:
+  @doc """
+  ## about `version`
+  Todo.
+
+
+  ## about `ecc`
   - 'L': recovers 7% of data
   - 'M': recovers 15% of data (default)
   - 'Q': recovers 25% of data
   - 'H': recovers 30% of data
 
-  dimension:
+  ## about `dimension`
+  Todo.
 
-  data:
+  ## about `data`
+  Todo.
   """
   defstruct version: nil, ecc: nil, dimension: nil, data: nil
 
   @doc """
-  Encode string as binary according ISO/IEC 18004.
+  Encode text as binary according ISO/IEC 18004.
   """
-  def encode(text) when is_binary(text) do
-    {:qrcode, version, ecc, dimension, data } = :qrcode.encode(text)
+  def encode(text, ecc \\ @default_ecc) when is_binary(text) do
+    {:qrcode, version, ecc, dimension, data } = :qrcode.encode(text, ecc)
 
     %QRCode{
       version: version,
@@ -29,10 +35,16 @@ defmodule QRCode do
   end
 
   @doc """
-  Returns QR code as string of {\#, \.}.
+  Returns QR code as string consists of {\#, \.}.
+
+  ## Examples
+
+      iex> QRCode.as_ascii("Hello, World!", ecc: :M)
+
   """
-  def as_ascii(text) when is_binary(text) do
-    %QRCode{dimension: dimension, data: data} = encode(text)
+  def as_ascii(text, opts \\ []) when is_binary(text) do
+    ecc = Keyword.get(opts, :ecc, @default_ecc)
+    %QRCode{dimension: dimension, data: data} = encode(text, ecc)
 
     nl = "\n"
 
@@ -61,9 +73,15 @@ defmodule QRCode do
 
   @doc """
   Return QR code as ANSI escaped string.
+
+  ## Examples
+
+      iex> QRCode.as_ansi("Hello, World!", ecc: :M) |> IO.puts
+
   """
-  def as_ansi(text) when is_binary(text) do
-    %QRCode{dimension: dimension, data: data} = encode(text)
+  def as_ansi(text, opts \\ []) when is_binary(text) do
+    ecc = Keyword.get(opts, :ecc, @default_ecc)
+    %QRCode{dimension: dimension, data: data} = encode(text, ecc)
 
     nl = IO.ANSI.reset() <> "\n"
     data
@@ -91,15 +109,22 @@ defmodule QRCode do
 
   @doc """
   Return QR code as string in SVG format.
+
+  ## Examples
+
+      iex> content = QRCode.as_svg("Hello, World!", ecc: :M)
+      iex> File.write("path/to/file.svg", content)
+
   """
   def as_svg(text, opts \\ []) when is_binary(text) do
-    %QRCode{dimension: dimension, data: data} = encode(text)
-
+    ecc = Keyword.get(opts, :ecc, @default_ecc)
     type = Keyword.get(opts, :type, :file)
     block_size = Keyword.get(opts, :size, 8)
     padding_size = Keyword.get(opts, :padding_size, 16)
     fg_color = Keyword.get(opts, :fg_color, "#000000")
     bg_color = Keyword.get(opts, :bg_color, "#ffffff")
+
+    %QRCode{dimension: dimension, data: data} = encode(text, ecc)
 
     size = block_size * dimension + 2 * padding_size
     bg = generate_svg_block(0, 0, size, bg_color)
