@@ -39,7 +39,8 @@ defmodule QRCode do
 
   ## Examples
 
-      iex> QRCode.as_ascii("Hello, World!", ecc: :M)
+      iex> QRCode.as_ascii("Hello, World!", ecc: :M) |> IO.puts
+      :ok
 
   """
   def as_ascii(text, opts \\ []) when is_binary(text) do
@@ -77,6 +78,7 @@ defmodule QRCode do
   ## Examples
 
       iex> QRCode.as_ansi("Hello, World!", ecc: :M) |> IO.puts
+      :ok
 
   """
   def as_ansi(text, opts \\ []) when is_binary(text) do
@@ -112,8 +114,8 @@ defmodule QRCode do
 
   ## Examples
 
-      iex> content = QRCode.as_svg("Hello, World!", ecc: :M)
-      iex> File.write("path/to/file.svg", content)
+      iex> QRCode.as_svg("Hello, World!", ecc: :M) |> IO.puts
+      :ok
 
   """
   def as_svg(text, opts \\ []) when is_binary(text) do
