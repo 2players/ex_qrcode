@@ -64,15 +64,15 @@ defmodule QRCode do
   Return QR code as string in SVG format.
   """
   def as_svg(text, opts \\ []) when is_binary(text) do
+    {:qrcode, _s, _q, dimension, data} = :qrcode.encode(text)
+
+    type = Keyword.get(opts, :type, :file)
     block_size = Keyword.get(opts, :size, 8)
     padding_size = Keyword.get(opts, :padding_size, 16)
     fg_color = Keyword.get(opts, :fg_color, "#000000")
     bg_color = Keyword.get(opts, :bg_color, "#ffffff")
 
     size = block_size * dimension + 2 * padding_size
-
-    {:qrcode, _s, _q, dimension, data} = :qrcode.encode(text)
-
     bg = generate_svg_block(0, 0, size, bg_color)
     blocks = data
     |> to_ascii()
@@ -93,7 +93,7 @@ defmodule QRCode do
     end)
     |> Enum.join("")
 
-    generate_svg(size, bg, blocks)
+    generate_svg(size, bg, blocks, type: type)
   end
 
   defp generate_svg_block(x, y, block_size, color) do
@@ -102,10 +102,18 @@ defmodule QRCode do
     """
   end
 
-  defp generate_svg(size, bg, blocks) do
+  defp generate_svg(size, bg, blocks, opts) do
+    type = Keyword.get(opts, :type)
+
+    header = case type do
+      :file ->
+        "<?xml version=\"1.0\" standalone=\"yes\"?>\n"
+      :embeded ->
+        ""
+    end
+
     """
-    <?xml version="1.0" standalone="yes"?>
-    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="#{size}" height="#{size}">
+    #{header}<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="#{size}" height="#{size}">
     #{bg}
     #{blocks}
     </svg>
