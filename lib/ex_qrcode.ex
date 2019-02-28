@@ -1,9 +1,38 @@
 defmodule QRCode do
   @doc """
+  version:
+
+  ecc:
+  - 'L': recovers 7% of data
+  - 'M': recovers 15% of data (default)
+  - 'Q': recovers 25% of data
+  - 'H': recovers 30% of data
+
+  dimension:
+
+  data:
+  """
+  defstruct version: nil, ecc: nil, dimension: nil, data: nil
+
+  @doc """
+  Encode string as binary according ISO/IEC 18004.
+  """
+  def encode(text) when is_binary(text) do
+    {:qrcode, version, ecc, dimension, data } = :qrcode.encode(text)
+
+    %QRCode{
+      version: version,
+      ecc: ecc,
+      dimension: dimension,
+      data: data
+    }
+  end
+
+  @doc """
   Returns QR code as string of {\#, \.}.
   """
   def as_ascii(text) when is_binary(text) do
-    {:qrcode, _s, _q, dimension, data} = :qrcode.encode(text)
+    %QRCode{dimension: dimension, data: data} = encode(text)
 
     nl = "\n"
 
@@ -34,7 +63,7 @@ defmodule QRCode do
   Return QR code as ANSI escaped string.
   """
   def as_ansi(text) when is_binary(text) do
-    {:qrcode, _s, _q, dimension, data} = :qrcode.encode(text)
+    %QRCode{dimension: dimension, data: data} = encode(text)
 
     nl = IO.ANSI.reset() <> "\n"
     data
@@ -64,7 +93,7 @@ defmodule QRCode do
   Return QR code as string in SVG format.
   """
   def as_svg(text, opts \\ []) when is_binary(text) do
-    {:qrcode, _s, _q, dimension, data} = :qrcode.encode(text)
+    %QRCode{dimension: dimension, data: data} = encode(text)
 
     type = Keyword.get(opts, :type, :file)
     block_size = Keyword.get(opts, :size, 8)
