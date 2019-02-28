@@ -8,6 +8,7 @@ defmodule ExQrcode.MixProject do
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
       deps: deps()
+      source_url: "https://github.com/2players/ex_qrcode"
     ]
   end
 
@@ -31,7 +32,7 @@ defmodule ExQrcode.MixProject do
     [
       maintainers: ["m31271n"],
       licenses: ["MIT"],
-      links: %{"Github" => "https://github.com/2players/ex_qrcode"}
+      links: %{"GitHub" => "https://github.com/2players/ex_qrcode"}
     ]
   end
 end
