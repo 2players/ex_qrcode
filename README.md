@@ -11,12 +11,12 @@ Utils for generating QR code in Elixir.
 
 ## Installation
 
-This package is [available in Hex](https://hex.pm/docs/publish). Install it by adding `ex_qrcode` to your list of dependencies in `mix.exs`:
+This package isn't available in Hex. Install it by adding `ex_qrcode` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
   [
-    {:ex_qrcode, "~> 0.1.0"}
+    {:ex_qrcode, github: "2players/ex_qrcode", tag: "0.1.0"}
   ]
 end
 ```
