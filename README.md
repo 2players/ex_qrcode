@@ -31,6 +31,10 @@ iex> content = QRCode.as_svg("Hello, World!")
 iex> File.write("path/to/file.svg", content)
 ```
 
+## Similar Library
+
+- [eqrcode](https://github.com/SiliconJungles/eqrcode)
+
 ## License
 
 [MIT](https://2players.studio/licenses/MIT) © [2Players Studio](https://2players.studio/)
