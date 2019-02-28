@@ -5,7 +5,7 @@ defmodule ExQrcode.MixProject do
     [
       app: :ex_qrcode,
       version: "0.1.0",
-      elixir: "~> 1.8",
+      elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
@@ -21,8 +21,17 @@ defmodule ExQrcode.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      # {:dep_from_hexpm, "~> 0.3.0"},
-      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
+      # prevent mix from trying to loading the package application file
+      # https://stackoverflow.com/a/43639173
+      {:qrcode, github: "komone/qrcode", ref: "4f74760", app: false, compile: "erl -make"}
+    ]
+  end
+
+  def package do
+    [
+      maintainers: ["m31271n"],
+      licenses: ["MIT"],
+      links: %{"Github" => "https://github.com/2players/ex_qrcode"}
     ]
   end
 end

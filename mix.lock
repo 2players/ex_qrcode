@@ -1,0 +1,3 @@
+%{
+  "qrcode": {:git, "https://github.com/komone/qrcode.git", "4f74760f38cf93f359564c337e2ceff63039cf87", [ref: "4f74760"]},
+}
