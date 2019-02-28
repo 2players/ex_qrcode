@@ -31,8 +31,6 @@ iex> content = QRCode.as_svg("Hello, World!")
 iex> File.write("path/to/file.svg", content)
 ```
 
-## Others
+## License
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/ex_qrcode](https://hexdocs.pm/ex_qrcode).
+[MIT](https://2players.studio/licenses/MIT) © [2Players Studio](https://2players.studio/)
