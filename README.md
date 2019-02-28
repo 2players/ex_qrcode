@@ -21,6 +21,16 @@ def deps do
 end
 ```
 
+## Usage
+
+```sh
+iex> QRCode.encode("Hello, World!")
+%QRCode{version: 1, ecc: :M, dimension: 29, data: <<...>>}
+
+iex> content = QRCode.as_svg("Hello, World!")
+iex> File.write("path/to/file.svg", content)
+```
+
 ## Others
 
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)

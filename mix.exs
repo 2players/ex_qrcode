@@ -8,8 +8,10 @@ defmodule QRCode.MixProject do
       version: "0.1.0",
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
+      source_url: "https://github.com/2players/ex_qrcode",
       deps: deps(),
-      source_url: "https://github.com/2players/ex_qrcode"
+      package: package(),
+      docs: docs()
     ]
   end
 
@@ -25,7 +27,17 @@ defmodule QRCode.MixProject do
     [
       # prevent mix from trying to loading the package application file
       # https://stackoverflow.com/a/43639173
-      {:qrcode, github: "komone/qrcode", ref: "4f74760", app: false, compile: "erl -make"}
+      {:qrcode, github: "komone/qrcode", ref: "4f74760", app: false, compile: "erl -make"},
+      {:ex_doc, "~> 0.19", only: :dev, runtime: false}
+    ]
+  end
+
+  defp docs do
+    [
+      main: "readme",
+      extras: [
+        "README.md"
+      ]
     ]
   end
 
